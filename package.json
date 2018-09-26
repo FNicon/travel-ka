@@ -10,7 +10,7 @@
     "build": "tsc",
     "lint": "tslint -p . --fix",
     "prepublish": "$npm_execpath run build",
-    "start:dev": "ts-node --inspect server --watch",
+    "start:dev": "ts-node cli --watch",
     "start": "node dist/cli"
   },
   "devDependencies": {

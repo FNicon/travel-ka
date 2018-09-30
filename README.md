@@ -17,6 +17,8 @@ To get started with this project, you need these:
 
 - [Node.js](https://nodejs.org/en/download) as the runtime.
 - [Yarn](https://yarnpkg.com/en/docs/install) package manager.
+- [pg](https://github.com/brianc/node-postgres) node-postgre
+- [knex](https://knexjs.org/#Installation) sql query builder
 
 ### Development
 

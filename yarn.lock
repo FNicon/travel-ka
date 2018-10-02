@@ -325,6 +325,11 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+autofail@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/autofail/-/autofail-0.0.1.tgz#453a489421b56bbacb9074f9159c73afb379b5a0"
+  integrity sha512-eka4jukTlpceGnYA8F3P3juNd4wbmj+OLU9J1fgaOOtcctGR3wHEWHdODVHQ3OYNNlwaktbvkjirKHBDIhVMLQ==
+
 babel-code-frame@^6.22.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"

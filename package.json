@@ -19,6 +19,7 @@
     "@types/koa": "^2.0.46",
     "@types/koa-router": "^7.0.32",
     "@types/node": "^10.11.0",
+    "autofail": "^0.0.1",
     "husky": "^1.0.0-rc.15",
     "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",
@@ -43,6 +44,9 @@
     "**/*.{js,jsx,ts,tsx}": [
       "tslint -p . --fix",
       "git add"
+    ],
+    "package-lock.json": [
+      "autofail echo Please use yarn to add/remove packages."
     ]
   },
   "prettier": {

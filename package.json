@@ -29,12 +29,14 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
+    "@types/pug": "^2.0.4",
     "@types/yargs": "^12.0.0",
     "chokidar": "^2.0.4",
     "knex": "^0.15.2",
     "koa": "^2.5.3",
     "koa-router": "^7.4.0",
     "pg": "^7.4.3",
+    "pug": "^2.0.3",
     "yargs": "^12.0.2"
   },
   "lint-staged": {

@@ -34,9 +34,9 @@ const argv = yargs
 
 const app = new Koa()
 
-app.use((...arg) => {
-  return require(middlewareModulePath).default(...arg)
-})
+var router = require(middlewareModulePath).default
+
+app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(argv.port)
 console.error(`Listening on ${argv.port}.`)

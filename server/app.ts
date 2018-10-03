@@ -8,7 +8,11 @@ export async function build() {
 
   const router = await buildRouter()
 
-  app.use(KoaViews(__dirname + "/view"))
+  app.use(
+    KoaViews("views", {
+      extension: "pug"
+    })
+  )
 
   app.use(router.routes())
   app.use(router.allowedMethods())

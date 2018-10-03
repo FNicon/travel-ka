@@ -1,9 +1,11 @@
 import * as KoaRouter from "koa-router"
 
+import { apply as applyHello } from "./controller/hello"
+
 export async function build() {
   const router = new KoaRouter()
 
-  // Add routes here
+  applyHello(router)
 
   return router
 }

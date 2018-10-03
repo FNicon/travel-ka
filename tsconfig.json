@@ -17,5 +17,8 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node"
-  }
+  },
+  "include": [
+    "server"
+  ]
 }

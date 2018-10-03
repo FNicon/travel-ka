@@ -1,0 +1,57 @@
+< (Takes Place Before)
+x(xs, xe) < y(ys, ye) table a
+	SELECT * FROM a WHERE xe < ys;
+
+> (Takes Place After)
+x(xs, xe) > y(ys, ye) table a
+	SELECT * FROM a WHERE xs > ye;
+
+========================
+m (Meets)
+x(xs, xe) m y(ys, ye) table a
+	SELECT * FROM a WHERE xe == ys;
+
+mi (Meets Inverse)
+x(xs, xe) mi y(ys, ye) table a
+	SELECT * FROM a WHERE ys == xe;
+
+========================
+o (Overlaps with)
+x(xs, xe) o y(ys,ye) table a
+	SELECT * FROM a WHERE xe BETWEEN (ys, ye) AND xs < ys;
+
+oi (Overlaps inverse)
+x oi y table a
+	SELECT * FROM a WHERE ye BETWEEN (xs, xe) AND ys < xs;
+
+========================
+s (Starts)
+x(xs, xe) s y(ys, ye) table a
+	SELECT * FROM a WHERE xs == ys AND xe < ye;
+
+si (Starts inverse)
+x(xs, xe) si y(ys, ye) table a
+	SELECT * FROM a WHERE xs == ys AND xe > ye;
+
+========================
+d (during)
+x(xs, xe) d y(ys, ye) table a
+	SELECT * FROM a WHERE xs BETWEEN (ys, ye) AND xe BETWEEN (ys, ye);
+
+di (during inverse)
+x(xs, xe) di y(ys, ye) table a
+	SELECT * FROM a WHERE ys BETWEEN (xs, xe) AND ye BETWEEN (xs, xe);
+
+========================
+f (finish)
+x(xs, xe) f y(ys, ye) table a
+	SELECT * FROM a WHERE xe == ye AND xs > ys;
+
+f (finish inverse)
+x fi y table a
+	SELECT * FROM a WHERE xe == ye AND xs < ys;
+
+========================
+= (is equal)
+x(xs, xe) = y(ys, ye) table a
+	SELECT * FROM a WHERE xs == ys AND xe == ye;

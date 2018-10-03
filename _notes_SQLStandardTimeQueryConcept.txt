@@ -1,0 +1,15 @@
+Insert
+
+Update
+
+Delete
+
+Selection
+
+Projection
+
+Set Differences
+
+Join
+
+Union

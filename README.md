@@ -28,6 +28,16 @@ To prepare this project:
 $ yarn
 ```
 
+To connect your local database (Don't forget to create the database)
+```
+$ set DATABASE_URL=postgres://user:pass@localhost/dbname
+```
+
+To update local database
+```
+$ npx knex migrate:latest
+```
+
 Development server can be started by:
 
 ```

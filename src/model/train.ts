@@ -1,4 +1,4 @@
-import { BaseModelData, model } from "."
+import { BaseModelData, model } from "./base"
 
 interface TrainData extends BaseModelData {
   name: string
@@ -6,4 +6,4 @@ interface TrainData extends BaseModelData {
   endedAt: Date
 }
 
-class Train extends model<TrainData>("train") {}
+export class Train extends model<TrainData>("train") {}

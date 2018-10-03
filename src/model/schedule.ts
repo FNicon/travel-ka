@@ -1,4 +1,4 @@
-import { BaseModelData, model } from "."
+import { BaseModelData, model } from "./base"
 
 interface ScheduleData extends BaseModelData {
   trainId: number

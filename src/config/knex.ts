@@ -1,5 +1,9 @@
 import { Config } from "knex"
 
+interface ConfigMap {
+  [key: string]: Config
+}
+
 export function build() {
   const commonConfig: Config = {
     client: "postgresql",
@@ -17,7 +21,7 @@ export function build() {
     }
   }
 
-  return {
+  return <ConfigMap>{
     development: commonConfig,
     production: commonConfig
   }

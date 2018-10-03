@@ -58,9 +58,10 @@
     }
   },
   "nodemonConfig": {
-    "exec": "node --inspect -r ts-node/register server/cli",
+    "exec": "node --inspect -r ts-node/register src/cli",
     "watch": [
-      "src/**/*.{ts,tsx}"
-    ]
+      "src/"
+    ],
+    "ext": "js,jsx,ts,tsx"
   }
 }

@@ -34,7 +34,7 @@ Development server can be started by:
 $ yarn start:dev
 ```
 
-You can edit the code in `server` directory and the changes will be reflected in the next request.
+You can edit the code in `src` directory and the changes will be reflected soon.
 
 # License
 

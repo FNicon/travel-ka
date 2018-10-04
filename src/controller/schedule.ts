@@ -42,6 +42,7 @@ export function apply(router: KoaRouter) {
         .where("id", "=", id)
         .first(),
       urls: {
+        join: router.url("schedule-list-train-join", id),
         before: router.url("schedule-list-before", id),
         after: router.url("schedule-list-after", id),
         meets: router.url("schedule-list-meets", id),
@@ -72,6 +73,19 @@ export function apply(router: KoaRouter) {
   router.post("schedule-edit", "/schedule/:id/edit", async ctx => {
     // TODO
   })
+
+  router.get(
+    "schedule-list-train-join",
+    "/schedule/:id/train/join",
+    async ctx => {
+      await ctx.render("schedule/list", {
+        schedules: await ctx
+          .knex("schedule")
+          .join("train", "schedule.trainId", "=", "train.id"),
+        urls: scheduleListUrls
+      })
+    }
+  )
 
   router.get("schedule-list-before", "/schedule/:id/before", async ctx => {
     await ctx.render("schedule/list", {

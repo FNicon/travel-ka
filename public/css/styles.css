@@ -1,0 +1,148 @@
+@font-face{
+    font-family: "ProductSans";
+    src: url("../fonts/ProductSans.ttf");
+}
+
+@font-face{
+    font-family: "Roboto";
+    src: url("../fonts/Roboto-Regular.ttf");
+}
+
+body {
+    font-family: "ProductSans";
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+/**
+ * Navbar
+ */
+
+.navbar {
+    z-index: 1;
+    box-shadow: 0 3px 4px 3px rgba(10,10,10,0.2) ;
+}
+
+.navbar .topnav {    
+    padding: 0.4rem;
+    padding-left: 6rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo-text {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+}
+
+.navbar .bottomnav {
+    padding:1.2rem;
+    background-color: #EEE;
+}
+
+/**
+ * Headertext
+ */
+
+.headertext {
+    padding:5rem 4rem 4rem 4rem;
+    background: rgb(60,38,94);
+    background: linear-gradient(0deg, rgba(45,28,73,1) 0%, rgba(69,48,101,1) 30%, rgba(86,61,124,1) 100%);
+    color : #FFF;
+}
+
+.headertext .header {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.headertext .text-column{ 
+    width:50%;
+}
+
+.headertext .text-column p{
+    font-family: "Roboto";
+}
+
+/**
+ * Content
+ */
+
+.content {
+    padding:2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #333;
+}
+
+.content .content-block {
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.content .content-block .header {
+    font-size:2rem;
+}
+
+.content .content-block .img-block, .content .content-block .text-block{
+    width: 45%;
+}
+
+/* .content .content-block .img-block {
+    
+} */
+
+.content .content-block .text-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 5rem;
+    letter-spacing: 0.08rem;
+}
+
+.content .content-block:nth-child(2n) .text-block {
+    margin-left: 15rem;
+}
+
+.content .content-block:nth-child(2n+1) .text-block {
+    text-align: right;
+    align-items: flex-end;
+    margin-right: 15rem;
+}
+
+.content .content-block .text-block .text-block-header {
+    font-size:1.5rem;
+    font-weight: bold;
+    padding: 1rem 0;
+}
+
+.content .content-block .text-block .text-block-content {
+    font-size:1rem;
+}
+
+/**
+ * Button
+ */
+button {
+    font-family: "ProductSans";
+    color: #FFF;
+    background-color: #7044b1;
+    border: none;
+    border-radius: 3px;
+    padding: 0.6rem;
+    margin:0.2rem;
+    transition-duration: 0.2s;
+}
+
+button:hover {
+    background-color: #8754d3; 
+}

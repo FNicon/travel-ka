@@ -35,9 +35,11 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
+    "@types/koa-mount": "^3.0.1",
     "@types/koa-static": "^4.0.0",
     "knex": "^0.15.2",
     "koa": "^2.5.3",
+    "koa-mount": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.4",

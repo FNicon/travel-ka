@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+  body
+    h1 Trains
+    #container.col
+      table
+        tr
+          th ID
+          th Name
+          th Manufactured At
+          th Ended At
+        for train in trains
+          tr
+            td
+              a(href=urls.trainDetail(train.id)) #{train.id}
+            td #{train.name}
+            td #{train.manufacturedAt}
+            td #{train.endedAt}

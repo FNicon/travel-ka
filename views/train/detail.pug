@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+  body
+    h1 Train #{train.id}
+    #container.col
+      table
+        tr
+          th ID
+          td #{train.id}
+        tr
+          th Name
+          td #{train.name}
+        tr
+          th Manufactured At
+          td #{train.manufacturedAt}
+        tr
+          th Ended At
+          td #{train.endedAt}
+      ul
+        li: a(href=urls.schedules) Schedules

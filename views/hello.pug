@@ -1,14 +1,37 @@
 doctype html
 html(lang="en")
-  head
-    title= pageTitle
+  include includes/header.pug
   body
-    h1 Pug - node template engine
-    #container.col
-      if youAreUsingPug
-        p You are amazing
-      else
-        p Get on it!
-      p.
-        Pug is a terse and simple templating language with a
-        strong focus on performance and powerful features.
+    include includes/navbar.pug
+    .headertext
+      .header Travel&nbsp;&nbsp;ka.com
+      .subtext 
+        .text-column
+          p Travel&nbsp;&nbsp;ka.com adalah situs pencarian kereta api modern.
+          button(onclick="document.location='http://google.com'") Cari Kereta
+          button(onclick="document.location='http://google.com'") Cari Jadwal
+    .content
+      .content-block
+        .header Tentang Travel&nbsp;&nbsp;ka.com
+      .content-block
+        .img-block &nbsp;
+        .text-block
+          .text-block-header Basis Data
+          .text-block-content
+            | Travel&nbsp;&nbsp;ka.com menggunakan PostgreSQL karena memiliki tipe data waktu dan operasi terhadap waktu
+
+      .content-block
+        .text-block
+            .text-block-header Arsitektur
+            .text-block-content
+              | Dibuat dengan menggunakan KOAJS sebagai framework dengan memanfaatkan KnexJS sebagai ORM
+        .img-block &nbsp;
+        
+      .content-block
+        .img-block &nbsp;
+        .text-block
+          .text-block-header 13 Predikat Allen++
+          .text-block-content
+            | Travel&nbsp;&nbsp;ka.com memiliki 13 Predikat Allen dan Temporal Query!
+          
+  include includes/footer.pug

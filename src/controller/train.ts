@@ -20,6 +20,15 @@ export function apply(router: KoaRouter) {
 
   router.post("train-new", "/train/new", async ctx => {
     // TODO
+    //Belum ditest//
+    await ctx.knex("train").insert([
+      { id: 101 },
+      { name: "Mutiara Selatan" },
+      {
+        manufacturedAt: "Tue Dec 28 2004 00:00:00 GMT+0700 (Indochina Time)"
+      },
+      { endedAt: "Sun Sep 06 2015 00:00:00 GMT+0700 (Indochina Time)" }
+    ])
   })
 
   router.get("train-list", "/trains", async ctx => {
@@ -76,6 +85,11 @@ export function apply(router: KoaRouter) {
 
   router.post("train-edit", "/train/:id/edit", async ctx => {
     // TODO
+    // Belum ditest//
+    await ctx
+      .knex("train")
+      .where("id", "=", ctx.params["id"])
+      .update({ name: "Turangga" })
   })
 
   router.get("train-form-delete", "/train/:id/delete", async ctx => {
@@ -90,6 +104,11 @@ export function apply(router: KoaRouter) {
 
   router.post("train-delete", "/train/:id/delete", async ctx => {
     // TODO
+    // Belum ditest//
+    await ctx
+      .knex("train")
+      .where("id", "=", ctx.params["id"])
+      .del()
   })
 
   router.get(

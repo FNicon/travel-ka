@@ -20,6 +20,17 @@ export function apply(router: KoaRouter) {
 
   router.post("schedule-new", "/schedule/new", async ctx => {
     // TODO
+    //Belum ditest//
+    await ctx
+      .knex("schedule")
+      .insert([
+        { id: 201 },
+        { trainID: 92 },
+        { source: "Bandung" },
+        { destination: "Jakarta" },
+        { departedAt: "Sun Dec 07 2003 02:12:51 GMT+0700 (Indochina Time)" },
+        { arrivedAt: "Thu Oct 27 2011 07:26:27 GMT+0700 (Indochina Time)" }
+      ])
   })
 
   router.get("schedule-list", "/schedules", async ctx => {
@@ -76,6 +87,11 @@ export function apply(router: KoaRouter) {
 
   router.post("schedule-edit", "/schedule/:id/edit", async ctx => {
     // TODO
+    // Belum ditest//
+    await ctx
+      .knex("schedule")
+      .where("id", "=", ctx.params["id"])
+      .update([{ source: "Bandung" }, { destination: "Jakarta" }])
   })
 
   router.get("schedule-form-delete", "/schedule/:id/delete", async ctx => {
@@ -90,6 +106,11 @@ export function apply(router: KoaRouter) {
 
   router.post("schedule-delete", "/schedule/:id/delete", async ctx => {
     // TODO
+    // Belum ditest//
+    await ctx
+      .knex("schedule")
+      .where("id", "=", ctx.params["id"])
+      .del()
   })
 
   router.get("schedule-list-union", "/schedule/:id/union", async ctx => {

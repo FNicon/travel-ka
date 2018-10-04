@@ -91,7 +91,7 @@ export function apply(router: KoaRouter) {
     await ctx.render("schedule/list", {
       schedules: await ctx.knex("schedule").where(
         "arrivedAt",
-        ">",
+        "<",
         ctx
           .knex("schedule")
           .select("departedAt")
@@ -106,7 +106,7 @@ export function apply(router: KoaRouter) {
     await ctx.render("schedule/list", {
       schedules: await ctx.knex("schedule").where(
         "departedAt",
-        "<",
+        ">",
         ctx
           .knex("schedule")
           .select("arrivedAt")
@@ -235,22 +235,26 @@ export function apply(router: KoaRouter) {
     // SELECT * FROM public.schedule WHERE xs == ys AND xe < ye;
     // SELECT * FROM public.schedule WHERE "arrivedAt"x == "arrivedAt"y AND "departedAt"x < "departedAt"y;
     await ctx.render("schedule/list", {
-      schedules: await ctx.knex("schedule").where(
-        "arrivedAt",
-        "=",
-        ctx
-          .knex("schedule")
-          .select("arrivedAt")
-          .where("id", "=", ctx.params["id"])
-          .first(),
-        "departedAt",
-        "<",
-        ctx
-          .knex("schedule")
-          .select("departedAt")
-          .where("id", "=", ctx.params["id"])
-          .first()
-      ),
+      schedules: await ctx
+        .knex("schedule")
+        .where(
+          "departedAt",
+          "=",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "arrivedAt",
+          "<",
+          ctx
+            .knex("schedule")
+            .select("arrivedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
       urls: scheduleListUrls
     })
   })
@@ -263,22 +267,26 @@ export function apply(router: KoaRouter) {
       // SELECT * FROM public.schedule WHERE xs == ys AND xe > ye;
       // SELECT * FROM public.schedule WHERE "arrivedAt"x == "arrivedAt"y AND "departedAt"x > "departedAt"y;
       await ctx.render("schedule/list", {
-        schedules: await ctx.knex("schedule").where(
-          "arrivedAt",
-          "=",
-          ctx
-            .knex("schedule")
-            .select("arrivedAt")
-            .where("id", "=", ctx.params["id"])
-            .first(),
-          "departedAt",
-          ">",
-          ctx
-            .knex("schedule")
-            .select("departedAt")
-            .where("id", "=", ctx.params["id"])
-            .first()
-        ),
+        schedules: await ctx
+          .knex("schedule")
+          .where(
+            "departedAt",
+            "=",
+            ctx
+              .knex("schedule")
+              .select("departedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          )
+          .andWhere(
+            "arrivedAt",
+            ">",
+            ctx
+              .knex("schedule")
+              .select("arrivedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          ),
         urls: scheduleListUrls
       })
     }
@@ -345,22 +353,26 @@ export function apply(router: KoaRouter) {
     // SELECT * FROM public.schedule WHERE xe == ye AND xs > ys;
     // SELECT * FROM public.schedule WHERE "departedAt"x == "departedAt"y AND "arrivedAt"x > "arrivedAt"y;
     await ctx.render("schedule/list", {
-      schedules: await ctx.knex("schedule").where(
-        "departedAt",
-        "=",
-        ctx
-          .knex("schedule")
-          .select("departedAt")
-          .where("id", "=", ctx.params["id"])
-          .first(),
-        "arrivedAt",
-        ">",
-        ctx
-          .knex("schedule")
-          .select("arrivedAt")
-          .where("id", "=", ctx.params["id"])
-          .first()
-      ),
+      schedules: await ctx
+        .knex("schedule")
+        .where(
+          "arrivedAt",
+          "=",
+          ctx
+            .knex("schedule")
+            .select("arrivedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "departedAt",
+          ">",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
       urls: scheduleListUrls
     })
   })
@@ -373,22 +385,26 @@ export function apply(router: KoaRouter) {
       // SELECT * FROM public.schedule WHERE xe == ye AND xs < ys;
       // SELECT * FROM public.schedule WHERE "departedAt"x == "departedAt"y AND "arrivedAt"x < "arrivedAt"y;
       await ctx.render("schedule/list", {
-        schedules: await ctx.knex("schedule").where(
-          "departedAt",
-          "=",
-          ctx
-            .knex("schedule")
-            .select("departedAt")
-            .where("id", "=", ctx.params["id"])
-            .first(),
-          "arrivedAt",
-          "<",
-          ctx
-            .knex("schedule")
-            .select("arrivedAt")
-            .where("id", "=", ctx.params["id"])
-            .first()
-        ),
+        schedules: await ctx
+          .knex("schedule")
+          .where(
+            "arrivedAt",
+            "=",
+            ctx
+              .knex("schedule")
+              .select("arrivedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          )
+          .andWhere(
+            "departedAt",
+            "<",
+            ctx
+              .knex("schedule")
+              .select("departedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          ),
         urls: scheduleListUrls
       })
     }
@@ -415,7 +431,8 @@ export function apply(router: KoaRouter) {
             .select("arrivedAt")
             .where("id", "=", ctx.params["id"])
             .first()
-        ),
+        )
+        .andWhere("id", "!=", ctx.params["id"]),
       urls: scheduleListUrls
     })
   })

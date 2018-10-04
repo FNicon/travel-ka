@@ -91,7 +91,7 @@ export function apply(router: KoaRouter) {
     await ctx.render("train/list", {
       trains: await ctx.knex("train").where(
         "endedAt",
-        ">",
+        "<",
         ctx
           .knex("train")
           .select("manufacturedAt")
@@ -106,7 +106,7 @@ export function apply(router: KoaRouter) {
     await ctx.render("train/list", {
       trains: await ctx.knex("train").where(
         "manufacturedAt",
-        "<",
+        ">",
         ctx
           .knex("train")
           .select("endedAt")
@@ -236,18 +236,18 @@ export function apply(router: KoaRouter) {
     // SELECT * FROM public.train WHERE "endedAt"x == "endedAt"y AND "manufacturedAt"x < "manufacturedAt"y;
     await ctx.render("train/list", {
       trains: await ctx.knex("train").where(
-        "endedAt",
+        "manufacturedAt",
         "=",
         ctx
           .knex("train")
-          .select("endedAt")
+          .select("manufacturedAt")
           .where("id", "=", ctx.params["id"])
           .first(),
-        "manufacturedAt",
+        "endedAt",
         "<",
         ctx
           .knex("train")
-          .select("manufacturedAt")
+          .select("endedAt")
           .where("id", "=", ctx.params["id"])
           .first()
       ),
@@ -260,22 +260,26 @@ export function apply(router: KoaRouter) {
     // SELECT * FROM public.train WHERE xs == ys AND xe > ye;
     // SELECT * FROM public.train WHERE "endedAt"x == "endedAt"y AND "manufacturedAt"x > "manufacturedAt"y;
     await ctx.render("train/list", {
-      trains: await ctx.knex("train").where(
-        "endedAt",
-        "=",
-        ctx
-          .knex("train")
-          .select("endedAt")
-          .where("id", "=", ctx.params["id"])
-          .first(),
-        "manufacturedAt",
-        ">",
-        ctx
-          .knex("train")
-          .select("manufacturedAt")
-          .where("id", "=", ctx.params["id"])
-          .first()
-      ),
+      trains: await ctx
+        .knex("train")
+        .where(
+          "manufacturedAt",
+          "=",
+          ctx
+            .knex("train")
+            .select("manifacturedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "endedAt",
+          ">",
+          ctx
+            .knex("train")
+            .select("endedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
       urls: trainListUrls
     })
   })
@@ -337,22 +341,26 @@ export function apply(router: KoaRouter) {
     // SELECT * FROM public.train WHERE xe == ye AND xs > ys;
     // SELECT * FROM public.train WHERE "manufacturedAt"x == "manufacturedAt"y AND "endedAt"x > "endedAt"y;
     await ctx.render("train/list", {
-      trains: await ctx.knex("train").where(
-        "manufacturedAt",
-        "=",
-        ctx
-          .knex("train")
-          .select("manufacturedAt")
-          .where("id", "=", ctx.params["id"])
-          .first(),
-        "endedAt",
-        ">",
-        ctx
-          .knex("train")
-          .select("endedAt")
-          .where("id", "=", ctx.params["id"])
-          .first()
-      ),
+      trains: await ctx
+        .knex("train")
+        .where(
+          "endedAt",
+          "=",
+          ctx
+            .knex("train")
+            .select("endedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "manufacturedAt",
+          ">",
+          ctx
+            .knex("train")
+            .select("manufacturedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
       urls: trainListUrls
     })
   })
@@ -362,22 +370,26 @@ export function apply(router: KoaRouter) {
     // SELECT * FROM public.train WHERE xe == ye AND xs < ys;
     // SELECT * FROM public.train WHERE "manufacturedAt"x == "manufacturedAt"y AND "endedAt"x < "endedAt"y;
     await ctx.render("train/list", {
-      trains: await ctx.knex("train").where(
-        "manufacturedAt",
-        "=",
-        ctx
-          .knex("train")
-          .select("manufacturedAt")
-          .where("id", "=", ctx.params["id"])
-          .first(),
-        "endedAt",
-        "<",
-        ctx
-          .knex("train")
-          .select("endedAt")
-          .where("id", "=", ctx.params["id"])
-          .first()
-      ),
+      trains: await ctx
+        .knex("train")
+        .where(
+          "endedAt",
+          "=",
+          ctx
+            .knex("train")
+            .select("endedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "manufacturedAt",
+          "<",
+          ctx
+            .knex("train")
+            .select("manufacturedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
       urls: trainListUrls
     })
   })
@@ -403,7 +415,8 @@ export function apply(router: KoaRouter) {
             .select("endedAt")
             .where("id", "=", ctx.params["id"])
             .first()
-        ),
+        )
+        .andWhere("id", "!=", ctx.params["id"]),
       urls: trainListUrls
     })
   })

@@ -41,6 +41,11 @@ body {
     font-size: 1.5rem;
 }
 
+.navbar .logo-text a {
+    text-decoration: none;
+    color:#000;
+}
+
 .navbar .bottomnav {
     padding:1.2rem;
     background-color: #EEE;
@@ -129,6 +134,13 @@ body {
     font-size:1rem;
 }
 
+.list-content {
+    display: flex;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 /**
  * Button
  */
@@ -141,8 +153,61 @@ button {
     padding: 0.6rem;
     margin:0.2rem;
     transition-duration: 0.2s;
+    cursor: pointer;
 }
 
 button:hover {
     background-color: #8754d3; 
+}
+
+/**
+ * Train data
+ */
+
+.train-data-block {
+    background-color: #FAFAFA;
+    width: 25rem;
+    padding: 1.3rem;
+    box-shadow: 0 3px 4px 3px rgba(10,10,10,0.2) ;
+    margin: 0.5rem 0.5rem;
+    border-radius: 1px;
+    border: 1.5rem solid #fd8607;
+    border-left: none;
+    border-right: none;
+}
+
+.data-block {
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+}
+
+.row-pad.data-block {
+    display: flex;
+    flex-direction: row;
+}
+
+.row-pad.data-block .pad {
+    padding-right:2rem;
+}
+
+.row-pad.data-block .pad-big {
+    width: 50%;
+}
+
+.data-block .block-header {
+    font-size: 0.8rem;
+}
+
+.data-block-header {
+    width: 100%;
+    text-align: right;
+}
+
+.train-data-block .bold.data-block {
+    font-weight: bolder;
+}
+
+.train-data-block .data-block a {
+    color : #000;
+    text-decoration: none;
 }

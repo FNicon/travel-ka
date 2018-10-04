@@ -1,25 +1,40 @@
 doctype html
 html(lang="en")
-  head
-    title= pageTitle
+doctype html
+html(lang="en")
+  include ../includes/header.pug
   body
-    h1 Schedules
-    #container.col
-      table
-        tr
-          th ID
-          th Train ID
-          th Source
-          th Destination
-          th Departed At
-          th Arrived At
-        for schedule in schedules
-          tr
-            td
-              a(href=urls.scheduleDetail(schedule.id)) #{schedule.id}
-            td
-              a(href=urls.trainDetail(schedule.trainId)) #{schedule.trainId}
-            td #{schedule.source}
-            td #{schedule.destination}
-            td #{schedule.departedAt}
-            td #{schedule.arrivedAt}
+    - const month = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]
+    - const day = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+    include ../includes/navbar.pug
+    .headertext
+      .header Schedules
+    .content.list-content
+      for schedule in schedules
+        .train-data-block
+          .id.data-block.bold
+            .schedule-id-block
+              .block-header
+                | Nomor Perjalanan
+              .block-content
+                a(href=urls.scheduleDetail(schedule.id)) #{"#"+schedule.id}
+          .train-id.data-block.bold
+            .block-header
+              | ID Kereta
+            .block-content
+              a(href=urls.trainDetail(schedule.trainId)) #{"#"+schedule.trainId}
+          .location.data-block.row-pad
+            - var start = new Date(schedule.departedAt)
+            - var end = new Date(schedule.arrivedAt)
+            .source.pad-big
+              .block-header
+                | Berangkat
+              .block-content
+                | #{schedule.source}<br>
+                | #{day[start.getDay()] + ", " + start.getDate()+" "+month[start.getMonth()]+" "+(1900+start.getYear())}
+            .destination.pad-big
+              .block-header
+                | Tujuan
+              .block-content
+                | #{schedule.destination}<br>
+                | #{day[end.getDay()] + ", " + end.getDate()+" "+month[end.getMonth()]+" "+(1900+end.getYear())}

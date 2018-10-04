@@ -116,6 +116,38 @@ export function apply(router: KoaRouter) {
   })
 
   router.get("schedule-list-overlaps", "/schedule/:id/overlaps", async ctx => {
+    await ctx.render("schedule/list", {
+      schedules: await ctx
+        .knex("schedule")
+        .where(
+          "departedAt",
+          "<",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "arrivedAt",
+          "<",
+          ctx
+            .knex("schedule")
+            .select("arrivedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "arrivedAt",
+          ">",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
+      urls: scheduleListUrls
+    })
     // TODO
     // SELECT * FROM public.train WHERE (xs,xe) OVERLAPS (ys,ye);
     // SELECT * FROM public.train WHERE ("endedAt"x,"manufacturedAt"x) OVERLAPS ("endedAt"y,"manufacturedAt"y);
@@ -125,9 +157,38 @@ export function apply(router: KoaRouter) {
     "schedule-list-overlapped-by",
     "/schedule/:id/overlapped-by",
     async ctx => {
-      // TODO
-      // SELECT * FROM public.train WHERE (ys,ye) OVERLAPS (xs,xe);
-      // SELECT * FROM public.train WHERE ("endedAt"y,"manufacturedAt"y) OVERLAPS ("endedAt"x,"manufacturedAt"x);
+      await ctx.render("schedule/list", {
+        schedules: await ctx
+          .knex("schedule")
+          .where(
+            "departedAt",
+            ">",
+            ctx
+              .knex("schedule")
+              .select("departedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          )
+          .andWhere(
+            "arrivedAt",
+            ">",
+            ctx
+              .knex("schedule")
+              .select("arrivedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          )
+          .andWhere(
+            "arrivedAt",
+            "<",
+            ctx
+              .knex("schedule")
+              .select("departedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          ),
+        urls: scheduleListUrls
+      })
     }
   )
 
@@ -148,18 +209,58 @@ export function apply(router: KoaRouter) {
   )
 
   router.get("schedule-list-covers", "/schedule/:id/covers", async ctx => {
-    // TODO
-    // SELECT * FROM public.train WHERE (xs BETWEEN (ys, ye)) AND (xe BETWEEN (ys, ye));
-    // SELECT * FROM public.train WHERE ("endedAt"y < "endedAt"x AND "endedAt"x < "manufacturedAt"y) AND ("endedAt"y < "manufacturedAt"x AND "manufacturedAt"x < "manufacturedAt"y);
+    await ctx.render("schedule/list", {
+      schedules: await ctx
+        .knex("schedule")
+        .where(
+          "departedAt",
+          "<",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "arrivedAt",
+          ">",
+          ctx
+            .knex("schedule")
+            .select("arrivedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
+      urls: scheduleListUrls
+    })
   })
 
   router.get(
     "schedule-list-covered-by",
     "/schedule/:id/covered-by",
     async ctx => {
-      // TODO
-      // SELECT * FROM public.train WHERE (ys BETWEEN (xs, xe)) AND (ye BETWEEN (xs, xe));
-      // SELECT * FROM public.train WHERE ("endedAt"x < "endedAt"y AND "endedAt"y < "manufacturedAt"x) AND ("endedAt"x < "manufacturedAt"y AND "manufacturedAt"y < "manufacturedAt"x);
+      await ctx.render("schedule/list", {
+        schedules: await ctx
+          .knex("schedule")
+          .where(
+            "departedAt",
+            ">",
+            ctx
+              .knex("schedule")
+              .select("departedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          )
+          .andWhere(
+            "arrivedAt",
+            "<",
+            ctx
+              .knex("schedule")
+              .select("arrivedAt")
+              .where("id", "=", ctx.params["id"])
+              .first()
+          ),
+        urls: scheduleListUrls
+      })
     }
   )
 
@@ -180,9 +281,29 @@ export function apply(router: KoaRouter) {
   )
 
   router.get("schedule-list-equals", "/schedule/:id/equals", async ctx => {
-    // TODO
-    // SELECT * FROM public.train WHERE xs == ys AND xe == ye;
-    // SELECT * FROM public.train WHERE "endedAt"x == "endedAt"y AND "manufacturedAt"x == "manufacturedAt"y;
+    await ctx.render("schedule/list", {
+      schedules: await ctx
+        .knex("schedule")
+        .where(
+          "departedAt",
+          "=",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        )
+        .andWhere(
+          "arrivedAt",
+          "=",
+          ctx
+            .knex("schedule")
+            .select("arrivedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
+      urls: scheduleListUrls
+    })
   })
 
   // #endregion

@@ -54,7 +54,8 @@ export function apply(router: KoaRouter) {
         coveredBy: router.url("schedule-list-covered-by", id),
         finishes: router.url("schedule-list-finishes", id),
         finishedBy: router.url("schedule-list-finished-by", id),
-        equals: router.url("schedule-list-equals", id)
+        equals: router.url("schedule-list-equals", id),
+        trainDetail: scheduleListUrls.trainDetail
       }
     })
   })

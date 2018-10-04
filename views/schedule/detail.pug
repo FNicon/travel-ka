@@ -11,7 +11,7 @@ html(lang="en")
           td #{schedule.id}
         tr
           th Train ID
-          td #{schedule.trainId}
+          td: a(href=urls.trainDetail(schedule.trainId)) #{schedule.trainId}
         tr
           th Source
           td #{schedule.source}

@@ -2,14 +2,15 @@
 
 import * as KoaRouter from "koa-router"
 
-import { schemaName } from "../util/schedule"
-import { callExpression } from "babel-types"
-
-export function apply(router: KoaRouter) {
-  const commonListUrls = {
+export function buildScheduleListUrls(router: KoaRouter) {
+  return {
     scheduleDetail: router.url.bind(router, "schedule-detail"),
     trainDetail: router.url.bind(router, "train-detail")
   }
+}
+
+export function apply(router: KoaRouter) {
+  const scheduleListUrls = buildScheduleListUrls(router)
 
   // #region Overview
 
@@ -23,8 +24,8 @@ export function apply(router: KoaRouter) {
 
   router.get("schedule-list", "/schedules", async ctx => {
     await ctx.render("schedule/list", {
-      schedules: await ctx.knex(schemaName),
-      urls: commonListUrls
+      schedules: await ctx.knex("schedule"),
+      urls: scheduleListUrls
     })
   })
 
@@ -37,7 +38,7 @@ export function apply(router: KoaRouter) {
 
     await ctx.render("schedule/detail", {
       schedule: await ctx
-        .knex(schemaName)
+        .knex("schedule")
         .where("id", "=", id)
         .first(),
       urls: {
@@ -61,7 +62,7 @@ export function apply(router: KoaRouter) {
   router.get("schedule-form-edit", "/schedule/:id/edit", async ctx => {
     await ctx.render("schedule/form", {
       schedule: await ctx
-        .knex(schemaName)
+        .knex("schedule")
         .where("id", "=", ctx.params["id"])
         .first()
     })
@@ -73,31 +74,31 @@ export function apply(router: KoaRouter) {
 
   router.get("schedule-list-before", "/schedule/:id/before", async ctx => {
     await ctx.render("schedule/list", {
-      schedules: await ctx.knex(schemaName).where(
+      schedules: await ctx.knex("schedule").where(
         "arrivedAt",
         ">",
         ctx
-          .knex(schemaName)
+          .knex("schedule")
           .select("departedAt")
           .where("id", "=", ctx.params["id"])
           .first()
       ),
-      urls: commonListUrls
+      urls: scheduleListUrls
     })
   })
 
   router.get("schedule-list-after", "/schedule/:id/after", async ctx => {
     await ctx.render("schedule/list", {
-      schedules: await ctx.knex(schemaName).where(
+      schedules: await ctx.knex("schedule").where(
         "departedAt",
         "<",
         ctx
-          .knex(schemaName)
+          .knex("schedule")
           .select("arrivedAt")
           .where("id", "=", ctx.params["id"])
           .first()
       ),
-      urls: commonListUrls
+      urls: scheduleListUrls
     })
   })
 

@@ -1,0 +1,34 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+  body
+    if schedule
+      h1 Edit Schedule #{schedule.id}
+    else
+      h1 New Schedule
+    #container.col
+      table
+        tr
+          th ID
+          td #{schedule && schedule.id}
+        tr
+          th Train ID
+          td
+            input(type="text", value=schedule && schedule.trainId)
+        tr
+          th Source
+          td
+            input(type="text", value=schedule && schedule.source)
+        tr
+          th Destination
+          td
+            input(type="text", value=schedule && schedule.destination)
+        tr
+          th Departed At
+          td
+            input(type="date", value=schedule && schedule.departedAt)
+        tr
+          th Arrived At
+          td
+            input(type="date", value=schedule && schedule.arrivedAt)

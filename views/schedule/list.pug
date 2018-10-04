@@ -1,0 +1,25 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+  body
+    h1 Schedules
+    #container.col
+      table
+        tr
+          th ID
+          th Train ID
+          th Source
+          th Destination
+          th Departed At
+          th Arrived At
+        for schedule in schedules
+          tr
+            td
+              a(href=urls.scheduleDetail(schedule.id)) #{schedule.id}
+            td
+              a(href=urls.trainDetail(schedule.trainId)) #{schedule.trainId}
+            td #{schedule.source}
+            td #{schedule.destination}
+            td #{schedule.departedAt}
+            td #{schedule.arrivedAt}

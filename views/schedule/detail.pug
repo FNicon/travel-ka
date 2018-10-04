@@ -1,0 +1,40 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+  body
+    h1 Schedule #{schedule.id}
+    #container.col
+      table
+        tr
+          th ID
+          td #{schedule.id}
+        tr
+          th Train ID
+          td #{schedule.trainId}
+        tr
+          th Source
+          td #{schedule.source}
+        tr
+          th Destination
+          td #{schedule.destination}
+        tr
+          th Departed At
+          td #{schedule.departedAt}
+        tr
+          th Arrived At
+          td #{schedule.arrivedAt}
+      ul
+        li: a(href=urls.before) Before
+        li: a(href=urls.after) After
+        li: a(href=urls.meets) Meets
+        li: a(href=urls.metBy) Met By
+        li: a(href=urls.overlaps) Overlaps
+        li: a(href=urls.overlappedBy) Overlapped By
+        li: a(href=urls.starts) Starts
+        li: a(href=urls.startedBy) Started By
+        li: a(href=urls.covers) Covers
+        li: a(href=urls.coveredBy) Covered By
+        li: a(href=urls.finishes) Finishes
+        li: a(href=urls.finishedBy) Finished By
+        li: a(href=urls.equals) Equals

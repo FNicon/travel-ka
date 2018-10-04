@@ -1,22 +1,30 @@
 doctype html
 html(lang="en")
-  head
-    title= pageTitle
+  include ../includes/header.pug
   body
-    h1 Train #{train.id}
-    #container.col
-      table
-        tr
-          th ID
-          td #{train.id}
-        tr
-          th Name
-          td #{train.name}
-        tr
-          th Manufactured At
-          td #{train.manufacturedAt}
-        tr
-          th Ended At
-          td #{train.endedAt}
-      ul
-        li: a(href=urls.schedules) Schedules
+    include ../includes/navbar.pug
+    .headertext
+      .header Trains
+    .content.detail-content
+      .train-data-block
+        .id.data-block
+          .block-header
+            | ID Kereta
+          .block-content
+            | 
+            a(href=urls.trainDetail(train.id)) #{"#"+train.id}
+        .name.data-block 
+          .block-header
+            | Nama Kereta
+          .block-content
+            | #{train.name}
+        .date.data-block.row-pad
+          - var start = new Date(train.manufacturedAt)
+          - var end = new Date(train.endedAt)
+          .start.pad
+            .block-header Produksi 
+            .block-content #{start.getDate()+"-"+start.getMonth()+"-"+(1900+start.getYear())}                
+          .end.pad
+            .block-header Selesai
+            .block-content #{end.getDate()+"-"+end.getMonth()+"-"+(1900+end.getYear())}
+      button(onclick="document.location='"+urls.schedules+"'") Cari Jadwal Kereta Ini

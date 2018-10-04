@@ -5,7 +5,8 @@ import * as KoaRouter from "koa-router"
 export function buildScheduleListUrls(router: KoaRouter) {
   return {
     scheduleDetail: router.url.bind(router, "schedule-detail"),
-    trainDetail: router.url.bind(router, "train-detail")
+    trainDetail: router.url.bind(router, "train-detail"),
+    scheduleTrainDetail: router.url.bind(router, "schedule-train-detail")
   }
 }
 
@@ -71,8 +72,16 @@ export function apply(router: KoaRouter) {
         finishes: router.url("schedule-list-finishes", id),
         finishedBy: router.url("schedule-list-finished-by", id),
         equals: router.url("schedule-list-equals", id),
-        trainDetail: scheduleListUrls.trainDetail
+        trainDetail: scheduleListUrls.trainDetail,
+        scheduleDetail: scheduleListUrls.trainDetail
       }
+    })
+  })
+
+  router.get("schedule-list-by-train", "/schedule-train/:id", async ctx => {
+    await ctx.render("schedule/list", {
+      schedules: await ctx.knex("schedule").where("trainId","=",ctx.params["id"]),
+      urls: scheduleListUrls
     })
   })
 

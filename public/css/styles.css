@@ -141,6 +141,10 @@ body {
     justify-content: space-around;
 }
 
+.detail-content {
+    align-items: center;
+}
+
 /**
  * Button
  */
@@ -158,6 +162,12 @@ button {
 
 button:hover {
     background-color: #8754d3; 
+}
+
+.button-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 /**

@@ -1,40 +1,53 @@
 doctype html
 html(lang="en")
-  head
-    title= pageTitle
+doctype html
+html(lang="en")
+  include ../includes/header.pug
   body
-    h1 Schedule #{schedule.id}
-    #container.col
-      table
-        tr
-          th ID
-          td #{schedule.id}
-        tr
-          th Train ID
-          td: a(href=urls.trainDetail(schedule.trainId)) #{schedule.trainId}
-        tr
-          th Source
-          td #{schedule.source}
-        tr
-          th Destination
-          td #{schedule.destination}
-        tr
-          th Departed At
-          td #{schedule.departedAt}
-        tr
-          th Arrived At
-          td #{schedule.arrivedAt}
-      ul
-        li: a(href=urls.before) Before
-        li: a(href=urls.after) After
-        li: a(href=urls.meets) Meets
-        li: a(href=urls.metBy) Met By
-        li: a(href=urls.overlaps) Overlaps
-        li: a(href=urls.overlappedBy) Overlapped By
-        li: a(href=urls.starts) Starts
-        li: a(href=urls.startedBy) Started By
-        li: a(href=urls.covers) Covers
-        li: a(href=urls.coveredBy) Covered By
-        li: a(href=urls.finishes) Finishes
-        li: a(href=urls.finishedBy) Finished By
-        li: a(href=urls.equals) Equals
+    - const month = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]
+    - const day = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+    include ../includes/navbar.pug
+    .headertext
+      .header Schedules
+    .content.detail-content
+      .train-data-block
+        .id.data-block.bold
+          .schedule-id-block
+            .block-header
+              | Nomor Perjalanan
+            .block-content
+              a(href=urls.scheduleDetail(schedule.id)) #{"#"+schedule.id}
+        .train-id.data-block.bold
+          .block-header
+            | ID Kereta
+          .block-content
+            a(href=urls.trainDetail(schedule.trainId)) #{"#"+schedule.trainId}
+        .location.data-block.row-pad
+          - var start = new Date(schedule.departedAt)
+          - var end = new Date(schedule.arrivedAt)
+          .source.pad-big
+            .block-header
+              | Berangkat
+            .block-content
+              | #{schedule.source}<br>
+              | #{day[start.getDay()] + ", " + start.getDate()+" "+month[start.getMonth()]+" "+(1900+start.getYear())}
+          .destination.pad-big
+            .block-header
+              | Tujuan
+            .block-content
+              | #{schedule.destination}<br>
+              | #{day[end.getDay()] + ", " + end.getDate()+" "+month[end.getMonth()]+" "+(1900+end.getYear())}
+      .button-gallery
+        button(onclick="document.location='"+urls.before+"'") Before
+        button(onclick="document.location='"+urls.after+"'") After
+        button(onclick="document.location='"+urls.meets+"'") Meets
+        button(onclick="document.location='"+urls.metBy+"'") Met By
+        button(onclick="document.location='"+urls.overlaps+"'") Overlaps
+        button(onclick="document.location='"+urls.overlappedBy+"'") Overlapped By
+        button(onclick="document.location='"+urls.starts+"'") Starts
+        button(onclick="document.location='"+urls.startedBy+"'") Started By
+        button(onclick="document.location='"+urls.covers+"'") Covers
+        button(onclick="document.location='"+urls.coveredBy+"'") Covered By
+        button(onclick="document.location='"+urls.finishes+"'") Finishes
+        button(onclick="document.location='"+urls.finishedBy+"'") Finished By
+        button(onclick="document.location='"+urls.equals+"'") Equals

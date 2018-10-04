@@ -5,7 +5,8 @@ import * as KoaRouter from "koa-router"
 export function buildTrainListUrls(router: KoaRouter) {
   return {
     scheduleDetail: router.url.bind(router, "schedule-detail"),
-    trainDetail: router.url.bind(router, "train-detail")
+    trainDetail: router.url.bind(router, "train-detail"),
+    scheduleTrainDetail: router.url.bind(router, "schedule-train-detail")
   }
 }
 
@@ -69,7 +70,8 @@ export function apply(router: KoaRouter) {
         finishes: router.url("train-list-finishes", id),
         finishedBy: router.url("train-list-finished-by", id),
         equals: router.url("train-list-equals", id),
-        trainDetail: trainListUrls.trainDetail
+        trainDetail: trainListUrls.trainDetail,
+        schedules : router.url("schedule-list-by-train", id)
       }
     })
   })

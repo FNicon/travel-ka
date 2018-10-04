@@ -165,6 +165,13 @@ export function apply(router: KoaRouter) {
         "=",
         ctx
           .knex("schedule")
+          .select("arrivedAt")
+          .where("id", "=", ctx.params["id"])
+          .first(),
+        "departedAt",
+        "<",
+        ctx
+          .knex("schedule")
           .select("departedAt")
           .where("id", "=", ctx.params["id"])
           .first()
@@ -180,6 +187,25 @@ export function apply(router: KoaRouter) {
       // TODO
       // SELECT * FROM public.schedule WHERE xs == ys AND xe > ye;
       // SELECT * FROM public.schedule WHERE "arrivedAt"x == "arrivedAt"y AND "departedAt"x > "departedAt"y;
+      await ctx.render("schedule/list", {
+        schedules: await ctx.knex("schedule").where(
+          "arrivedAt",
+          "=",
+          ctx
+            .knex("schedule")
+            .select("arrivedAt")
+            .where("id", "=", ctx.params["id"])
+            .first(),
+          "departedAt",
+          ">",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
+        urls: scheduleListUrls
+      })
     }
   )
 

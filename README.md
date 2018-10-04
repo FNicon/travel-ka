@@ -38,6 +38,15 @@ To update local database
 $ npx knex migrate:latest
 ```
 
+```
+$ ctx knex seed:run
+```
+
+To begin query
+```
+$ set DEBUG=knex:query
+```
+
 Development server can be started by:
 
 ```

@@ -105,14 +105,38 @@ export function apply(router: KoaRouter) {
 
   router.get("schedule-list-meets", "/schedule/:id/meets", async ctx => {
     // TODO
-    // SELECT * FROM public.train WHERE xe == ys;
-    // SELECT * FROM public.train WHERE "manufacturedAt"x == "endedAt"y;
+    // SELECT * FROM public.schedule WHERE xe == ys;
+    // SELECT * FROM public.schedule WHERE "departedAt"x == "arrivedAt"y;
+    await ctx.render("schedule/list", {
+      schedules: await ctx.knex("schedule").where(
+        "arrivedAt",
+        "=",
+        ctx
+          .knex("schedule")
+          .select("departedAt")
+          .where("id", "=", ctx.params["id"])
+          .first()
+      ),
+      urls: scheduleListUrls
+    })
   })
 
   router.get("schedule-list-met-by", "/schedule/:id/met-by", async ctx => {
     // TODO
-    // SELECT * FROM public.train WHERE ys == xe;
-    // SELECT * FROM public.train WHERE "endedAt"x == "manufacturedAt"y;
+    // SELECT * FROM public.schedule WHERE ys == xe;
+    // SELECT * FROM public.schedule WHERE "arrivedAt"x == "departedAt"y;
+    await ctx.render("schedule/list", {
+      schedules: await ctx.knex("schedule").where(
+        "departedAt",
+        "=",
+        ctx
+          .knex("schedule")
+          .select("arrivedAt")
+          .where("id", "=", ctx.params["id"])
+          .first()
+      ),
+      urls: scheduleListUrls
+    })
   })
 
   router.get("schedule-list-overlaps", "/schedule/:id/overlaps", async ctx => {
@@ -149,8 +173,8 @@ export function apply(router: KoaRouter) {
       urls: scheduleListUrls
     })
     // TODO
-    // SELECT * FROM public.train WHERE (xs,xe) OVERLAPS (ys,ye);
-    // SELECT * FROM public.train WHERE ("endedAt"x,"manufacturedAt"x) OVERLAPS ("endedAt"y,"manufacturedAt"y);
+    // SELECT * FROM public.schedule WHERE (xs,xe) OVERLAPS (ys,ye);
+    // SELECT * FROM public.schedule WHERE ("arrivedAt"x,"departedAt"x) OVERLAPS ("arrivedAt"y,"departedAt"y);
   })
 
   router.get(
@@ -194,8 +218,27 @@ export function apply(router: KoaRouter) {
 
   router.get("schedule-list-starts", "/schedule/:id/starts", async ctx => {
     // TODO
-    // SELECT * FROM public.train WHERE xs == ys AND xe < ye;
-    // SELECT * FROM public.train WHERE "endedAt"x == "endedAt"y AND "manufacturedAt"x < "manufacturedAt"y;
+    // SELECT * FROM public.schedule WHERE xs == ys AND xe < ye;
+    // SELECT * FROM public.schedule WHERE "arrivedAt"x == "arrivedAt"y AND "departedAt"x < "departedAt"y;
+    await ctx.render("schedule/list", {
+      schedules: await ctx.knex("schedule").where(
+        "arrivedAt",
+        "=",
+        ctx
+          .knex("schedule")
+          .select("arrivedAt")
+          .where("id", "=", ctx.params["id"])
+          .first(),
+        "departedAt",
+        "<",
+        ctx
+          .knex("schedule")
+          .select("departedAt")
+          .where("id", "=", ctx.params["id"])
+          .first()
+      ),
+      urls: scheduleListUrls
+    })
   })
 
   router.get(
@@ -203,8 +246,27 @@ export function apply(router: KoaRouter) {
     "/schedule/:id/started-by",
     async ctx => {
       // TODO
-      // SELECT * FROM public.train WHERE xs == ys AND xe > ye;
-      // SELECT * FROM public.train WHERE "endedAt"x == "endedAt"y AND "manufacturedAt"x > "manufacturedAt"y;
+      // SELECT * FROM public.schedule WHERE xs == ys AND xe > ye;
+      // SELECT * FROM public.schedule WHERE "arrivedAt"x == "arrivedAt"y AND "departedAt"x > "departedAt"y;
+      await ctx.render("schedule/list", {
+        schedules: await ctx.knex("schedule").where(
+          "arrivedAt",
+          "=",
+          ctx
+            .knex("schedule")
+            .select("arrivedAt")
+            .where("id", "=", ctx.params["id"])
+            .first(),
+          "departedAt",
+          ">",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
+        urls: scheduleListUrls
+      })
     }
   )
 
@@ -266,8 +328,27 @@ export function apply(router: KoaRouter) {
 
   router.get("schedule-list-finishes", "/schedule/:id/finishes", async ctx => {
     // TODO
-    // SELECT * FROM public.train WHERE xe == ye AND xs > ys;
-    // SELECT * FROM public.train WHERE "manufacturedAt"x == "manufacturedAt"y AND "endedAt"x > "endedAt"y;
+    // SELECT * FROM public.schedule WHERE xe == ye AND xs > ys;
+    // SELECT * FROM public.schedule WHERE "departedAt"x == "departedAt"y AND "arrivedAt"x > "arrivedAt"y;
+    await ctx.render("schedule/list", {
+      schedules: await ctx.knex("schedule").where(
+        "departedAt",
+        "=",
+        ctx
+          .knex("schedule")
+          .select("departedAt")
+          .where("id", "=", ctx.params["id"])
+          .first(),
+        "arrivedAt",
+        ">",
+        ctx
+          .knex("schedule")
+          .select("arrivedAt")
+          .where("id", "=", ctx.params["id"])
+          .first()
+      ),
+      urls: scheduleListUrls
+    })
   })
 
   router.get(
@@ -275,8 +356,27 @@ export function apply(router: KoaRouter) {
     "/schedule/:id/finished-by",
     async ctx => {
       // TODO
-      // SELECT * FROM public.train WHERE xe == ye AND xs < ys;
-      // SELECT * FROM public.train WHERE "manufacturedAt"x == "manufacturedAt"y AND "endedAt"x < "endedAt"y;
+      // SELECT * FROM public.schedule WHERE xe == ye AND xs < ys;
+      // SELECT * FROM public.schedule WHERE "departedAt"x == "departedAt"y AND "arrivedAt"x < "arrivedAt"y;
+      await ctx.render("schedule/list", {
+        schedules: await ctx.knex("schedule").where(
+          "departedAt",
+          "=",
+          ctx
+            .knex("schedule")
+            .select("departedAt")
+            .where("id", "=", ctx.params["id"])
+            .first(),
+          "arrivedAt",
+          "<",
+          ctx
+            .knex("schedule")
+            .select("arrivedAt")
+            .where("id", "=", ctx.params["id"])
+            .first()
+        ),
+        urls: scheduleListUrls
+      })
     }
   )
 

@@ -1,15 +1,11 @@
+/// <reference path="koa-context.d.ts" />
+
 import * as Koa from "koa"
 import * as KoaViews from "koa-views"
 import * as Knex from "knex"
 
 import { build as buildRouter } from "./router"
 import { build as buildKnexConfig } from "./config/knex"
-
-declare module "koa" {
-  interface Context {
-    knex: Knex
-  }
-}
 
 export async function build() {
   const environType = process.env.NODE_ENV || "development"

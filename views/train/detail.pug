@@ -11,7 +11,6 @@ html(lang="en")
           .block-header
             | ID Kereta
           .block-content
-            | 
             a(href=urls.trainDetail(train.id)) #{"#"+train.id}
         .name.data-block 
           .block-header
@@ -28,3 +27,4 @@ html(lang="en")
             .block-header Selesai
             .block-content #{end.getDate()+"-"+end.getMonth()+"-"+(1900+end.getYear())}
       button(onclick="document.location='"+urls.schedules+"'") Cari Jadwal Kereta Ini
+    button(onclick="document.location='"+urls.trainEdit+"'" style="width:20px; height: 20px;")

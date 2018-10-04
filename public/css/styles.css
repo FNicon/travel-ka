@@ -170,6 +170,10 @@ button:hover {
     justify-content: center;
 }
 
+.justify-start {
+    justify-content: start !important;
+}
+
 /**
  * Train data
  */

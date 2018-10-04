@@ -11,27 +11,17 @@ export function buildTrainListUrls(router: KoaRouter) {
 }
 
 export function apply(router: KoaRouter) {
+  
+  interface TrainData{
+    id : string;
+    name : string;
+    manufacturedAt : string;
+    endedAt : string
+  }
+
   const trainListUrls = buildTrainListUrls(router)
 
   // #region Overview
-
-  router.get("train-form-new", "/train/new", async ctx => {
-    await ctx.render("train/form")
-  })
-
-  router.post("train-new", "/train/new", async ctx => {
-    // TODO
-    //Belum ditest//
-    await ctx.knex("train").insert([
-      { id: 101 },
-      { name: "Mutiara Selatan" },
-      {
-        manufacturedAt: "Tue Dec 28 2004 00:00:00 GMT+0700 (Indochina Time)"
-      },
-      { endedAt: "Sun Sep 06 2015 00:00:00 GMT+0700 (Indochina Time)" }
-    ])
-  })
-
   router.get("train-list", "/trains", async ctx => {
     await ctx.render("train/list", {
       trains: await ctx.knex("train"),
@@ -42,6 +32,9 @@ export function apply(router: KoaRouter) {
   // #endregion
 
   // #region Details
+  router.get("train-form-new", "/train/new", async ctx => {
+    await ctx.render("train/form")
+  })
 
   router.get("train-detail", "/train/:id", async ctx => {
     const id: number = ctx.params["id"]
@@ -71,9 +64,21 @@ export function apply(router: KoaRouter) {
         finishedBy: router.url("train-list-finished-by", id),
         equals: router.url("train-list-equals", id),
         trainDetail: trainListUrls.trainDetail,
-        schedules : router.url("schedule-list-by-train", id)
+        schedules : router.url("schedule-list-by-train", id),
+        trainEdit: router.url("train-form-edit", id)
       }
     })
+  })
+
+  router.post("train-add", "/train/new", async ctx => {
+    let body = <TrainData> ctx.request.body
+    await ctx.knex("train").insert([
+      { id: body["id"],
+        name: body["name"],
+        manufacturedAt: body["manufacturedAt"],
+        endedAt: body["endedAt"] 
+      }])
+    ctx.redirect("train-form-new")
   })
 
   router.get("train-form-edit", "/train/:id/edit", async ctx => {
@@ -81,36 +86,34 @@ export function apply(router: KoaRouter) {
       train: await ctx
         .knex("train")
         .where("id", "=", ctx.params["id"])
-        .first()
+        .first(),
+      urls : {
+        delete : router.url("train-delete", ctx.params["id"]),
+        edit : router.url("train-edit", ctx.params["id"])
+      }
     })
   })
 
-  router.post("train-edit", "/train/:id/edit", async ctx => {
-    // TODO
-    // Belum ditest//
+  router.post("train-edit", "/train/edit", async ctx => {
+    let body = <TrainData> ctx.request.body
     await ctx
       .knex("train")
-      .where("id", "=", ctx.params["id"])
-      .update({ name: "Turangga" })
+      .where("id", "=", body["id"])
+      .update({
+        name: body["name"],
+        manufacturedAt: body["manufacturedAt"],
+        endedAt: body["endedAt"] 
+      })
+      ctx.redirect(router.url("train-detail", body["id"]))
   })
 
-  router.get("train-form-delete", "/train/:id/delete", async ctx => {
-    //belum di test//
-    await ctx.render("train/form", {
-      train: await ctx
+  router.post("train-delete", "/train/delete", async ctx => {
+    let body = <TrainData> ctx.request.body
+    await ctx
         .knex("train")
-        .where("id", "=", ctx.params["id"])
-        .first()
-    })
-  })
-
-  router.post("train-delete", "/train/:id/delete", async ctx => {
-    // TODO
-    // Belum ditest//
-    await ctx
-      .knex("train")
-      .where("id", "=", ctx.params["id"])
-      .del()
+        .where("id", "=", body["id"])
+        .del()
+    ctx.redirect(router.url('train-list',{}))
   })
 
   router.get(

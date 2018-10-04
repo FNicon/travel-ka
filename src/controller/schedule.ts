@@ -13,6 +13,16 @@ export function buildScheduleListUrls(router: KoaRouter) {
 export function apply(router: KoaRouter) {
   const scheduleListUrls = buildScheduleListUrls(router)
 
+  
+  interface ScheduleData{
+    id : string;
+    trainId : string;
+    source : string;
+    destination : string;
+    departedAt : string;
+    arrivedAt : string
+  }
+
   // #region Overview
 
   router.get("schedule-form-new", "/schedule/new", async ctx => {
@@ -22,16 +32,18 @@ export function apply(router: KoaRouter) {
   router.post("schedule-new", "/schedule/new", async ctx => {
     // TODO
     //Belum ditest//
+    let body = <ScheduleData> ctx.request.body
     await ctx
       .knex("schedule")
       .insert([
-        { id: 201 },
-        { trainID: 92 },
-        { source: "Bandung" },
-        { destination: "Jakarta" },
-        { departedAt: "Sun Dec 07 2003 02:12:51 GMT+0700 (Indochina Time)" },
-        { arrivedAt: "Thu Oct 27 2011 07:26:27 GMT+0700 (Indochina Time)" }
+        { id: body.id,
+        trainId: body.trainId,
+        source: body.source,
+        destination: body.destination,
+        departedAt: body.departedAt,
+        arrivedAt: body.arrivedAt }
       ])
+    ctx.redirect("train-form-new")
   })
 
   router.get("schedule-list", "/schedules", async ctx => {
@@ -73,15 +85,9 @@ export function apply(router: KoaRouter) {
         finishedBy: router.url("schedule-list-finished-by", id),
         equals: router.url("schedule-list-equals", id),
         trainDetail: scheduleListUrls.trainDetail,
-        scheduleDetail: scheduleListUrls.trainDetail
+        scheduleDetail: scheduleListUrls.trainDetail,
+        scheduleEdit: router.url("schedule-form-edit", id),
       }
-    })
-  })
-
-  router.get("schedule-list-by-train", "/schedule-train/:id", async ctx => {
-    await ctx.render("schedule/list", {
-      schedules: await ctx.knex("schedule").where("trainId","=",ctx.params["id"]),
-      urls: scheduleListUrls
     })
   })
 
@@ -90,36 +96,37 @@ export function apply(router: KoaRouter) {
       schedule: await ctx
         .knex("schedule")
         .where("id", "=", ctx.params["id"])
-        .first()
+        .first(),
+      urls : {
+        delete : router.url("schedule-delete", ctx.params["id"]),
+        edit : router.url("schedule-edit", ctx.params["id"])
+      }
     })
   })
 
-  router.post("schedule-edit", "/schedule/:id/edit", async ctx => {
-    // TODO
-    // Belum ditest//
+  router.post("schedule-edit", "/schedule/edit", async ctx => {    
+    let body = <ScheduleData> ctx.request.body
     await ctx
       .knex("schedule")
-      .where("id", "=", ctx.params["id"])
-      .update([{ source: "Bandung" }, { destination: "Jakarta" }])
+      .where("id", "=", body["id"])
+      .update({
+        trainId: body.trainId,
+        source: body.source,
+        destination: body.destination,
+        departedAt: body.departedAt,
+        arrivedAt: body.arrivedAt })
+    ctx.redirect(router.url("schedule-detail",{
+      id: body.id
+    }))
   })
 
-  router.get("schedule-form-delete", "/schedule/:id/delete", async ctx => {
-    //belum di test//
-    await ctx.render("schedule/form", {
-      schedule: await ctx
-        .knex("schedule")
-        .where("id", "=", ctx.params["id"])
-        .first()
-    })
-  })
-
-  router.post("schedule-delete", "/schedule/:id/delete", async ctx => {
-    // TODO
-    // Belum ditest//
+  router.post("schedule-delete", "/schedule/delete", async ctx => {
+    let body = <ScheduleData> ctx.request.body
     await ctx
       .knex("schedule")
-      .where("id", "=", ctx.params["id"])
+      .where("id", "=", body["id"])
       .del()
+    ctx.redirect(router.url('schedule-list',{}))
   })
 
   router.get("schedule-list-union", "/schedule/:id/union", async ctx => {

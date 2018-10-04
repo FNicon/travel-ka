@@ -1,6 +1,61 @@
 doctype html
 html(lang="en")
-  head
-    title= pageTitle
+  include ../includes/header.pug
   body
-    h1 TODO
+    include ../includes/navbar.pug
+    .headertext
+
+      if train
+        .header Edit Train #{train.id}
+      else
+        .header New Train
+      #container.col
+        if train            
+          form(method="POST", action=urls.edit)
+            table
+              tr
+                th Train ID
+                td
+                  #{train.id}
+                  input(type="hidden", value=train.id, name="id")
+              tr
+                th Nama Kereta
+                td
+                  input(type="text", value=train.name, name="name")
+              tr
+                th Manufactured At
+                td
+                  - start = new Date(train.manufacturedAt)
+                  input(type="date", value=start.toISOString().slice(0,10), name="manufacturedAt")
+              tr
+                th Ended At
+                td
+                  - end = new Date(train.endedAt)
+                  input(type="date", value=end.toISOString().slice(0,10), name="endedAt")
+            .button-gallery.justify-start
+              button(type="submit") Submit 
+              button(type="button", onclick="$('#deleteForm').submit()") Delete     
+          form(id="deleteForm", method="POST", action=urls.delete)
+            input(type="hidden", value=train.id, name="id")
+        else
+          form(method="POST", action="/train/new")
+            table
+              tr
+                th Train ID
+                td
+                  input(type="text", name="id")
+              tr
+                th Nama Kereta
+                td
+                  input(type="text", name="name")
+              tr
+                th Manufactured At
+                td
+                  input(type="date", name="manufacturedAt")
+              tr
+                th Ended At
+                td
+                  input(type="date", name="endedAt")
+            .button-gallery.justify-start
+              button(type="submit") Submit
+  include ../includes/footer.pug

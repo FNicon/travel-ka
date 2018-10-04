@@ -4,6 +4,7 @@ import * as Koa from "koa"
 import * as KoaMount from "koa-mount"
 import * as KoaStatic from "koa-static"
 import * as KoaViews from "koa-views"
+import * as KoaBody from "koa-bodyparser"
 import * as Knex from "knex"
 
 import { build as buildRouter } from "./router"
@@ -34,6 +35,10 @@ export async function build() {
   
   app.use(
 	  KoaMount('/static', KoaStatic(publicFiles))
+  )
+
+  app.use(
+    KoaBody()
   )
 
   // Controllers

@@ -1,34 +1,74 @@
 doctype html
 html(lang="en")
-  head
-    title= pageTitle
+  include ../includes/header.pug
   body
-    if schedule
-      h1 Edit Schedule #{schedule.id}
-    else
-      h1 New Schedule
-    #container.col
-      table
-        tr
-          th ID
-          td #{schedule && schedule.id}
-        tr
-          th Train ID
-          td
-            input(type="text", value=schedule && schedule.trainId)
-        tr
-          th Source
-          td
-            input(type="text", value=schedule && schedule.source)
-        tr
-          th Destination
-          td
-            input(type="text", value=schedule && schedule.destination)
-        tr
-          th Departed At
-          td
-            input(type="date", value=schedule && schedule.departedAt)
-        tr
-          th Arrived At
-          td
-            input(type="date", value=schedule && schedule.arrivedAt)
+    include ../includes/navbar.pug
+    .headertext
+      if schedule
+        .header Edit Schedule #{schedule.id}
+      else
+        .header New Schedule
+      #container.col
+        if schedule
+          form(method="POST", action=urls.edit)          
+            table
+              tr
+                th ID
+                td
+                  #{schedule.id}
+                  input(type="hidden", value=schedule.id, name="id")
+              tr
+                th Train ID
+                td
+                  input(type="text", value=schedule.trainId, name="trainId")
+              tr
+                th Source
+                td
+                  input(type="text", value=schedule.source, name="source")
+              tr
+                th Destination
+                td
+                  input(type="text", value=schedule.destination, name="destination")
+              tr
+                th Departed At
+                td
+                  input(type="datetime", value=schedule.departedAt, name="departedAt")
+              tr
+                th Arrived At
+                td
+                  input(type="datetime", value=schedule.arrivedAt, name="arrivedAt")
+            .button-gallery.justify-start
+              button(type="submit") Submit 
+              button(type="button", onclick="$('#deleteForm').submit()") Delete
+          form(id="deleteForm", method="POST", action=urls.delete)
+            input(type="hidden", value=schedule.id, name="id")
+        else 
+          form(method="POST", action="/schedule/new")
+            table
+              tr
+                th ID
+                td
+                  input(type="text", name="id")
+              tr
+                th Train ID
+                td
+                  input(type="text", name="trainId")
+              tr
+                th Source
+                td
+                  input(type="text", name="source")
+              tr
+                th Destination
+                td
+                  input(type="text", name="destination")
+              tr
+                th Departed At
+                td
+                  input(type="datetime", name="departedAt")
+              tr
+                th Arrived At
+                td
+                  input(type="datetime", name="arrivedAt")
+            .button-gallery.justify-start
+              button(type="submit") Submit
+  include ../includes/footer.pug

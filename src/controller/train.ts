@@ -117,8 +117,9 @@ export function apply(router: KoaRouter) {
     "train-list-schedule-join",
     "/train/:id/schedule/join",
     async ctx => {
+      //Belum ada UInya//
       await ctx.render("train/list", {
-        schedules: await ctx
+        trains: await ctx
           .knex("train")
           .join("schedule", "schedule.trainId", "=", "train.id"),
         urls: trainListUrls
@@ -127,28 +128,28 @@ export function apply(router: KoaRouter) {
   )
 
   router.get("train-list-union", "/train/:id/union", async ctx => {
-    //Belum ditest//
     await ctx.render("train/list", {
-      schedules: await ctx.knex.raw(
-        "SELECT * FROM train WHERE id= ? UNION SELECT * FROM train AS trainss WHERE id=1",
-        ctx.params["id"]
-      ),
+      trains: await ctx
+        .knex("train")
+        .where("id", "=", ctx.params["id"])
+        .union(function() {
+          this.from("train").where("id", "=", 1)
+        }),
       urls: trainListUrls
     })
   })
 
   router.get("train-list-select", "/train/:id/select", async ctx => {
-    //Belum ditest//
     await ctx.render("train/list", {
-      schedules: await ctx.knex("train").where("id", "=", ctx.params["id"]),
+      trains: await ctx.knex("train").where("id", "=", ctx.params["id"]),
       urls: trainListUrls
     })
   })
 
   router.get("train-list-projection", "/train/:id/projection", async ctx => {
-    //Belum ditest//
+    //Belum ada UInya//
     await ctx.render("train/list", {
-      schedules: await ctx
+      trains: await ctx
         .knex("train")
         .column("name", "manufacturedAt", "endedAt")
         .where("id", "=", ctx.params["id"]),
@@ -157,12 +158,13 @@ export function apply(router: KoaRouter) {
   })
 
   router.get("train-list-different", "/train/:id/different", async ctx => {
-    //Belum ditest//
     await ctx.render("train/list", {
-      schedules: await ctx.knex.raw(
-        "SELECT * FROM train WHERE id= ? EXCEPT SELECT * FROM train WHERE id=1",
-        ctx.params["id"]
-      ),
+      trains: await ctx
+        .knex("train")
+        .whereRaw(
+          "id=? except select * from train where id=1",
+          ctx.params["id"]
+        ),
       urls: trainListUrls
     })
   })

@@ -114,18 +114,18 @@ export function apply(router: KoaRouter) {
   })
 
   router.get("schedule-list-union", "/schedule/:id/union", async ctx => {
-    //Belum ditest//
     await ctx.render("schedule/list", {
-      schedules: await ctx.knex.raw(
-        "SELECT * FROM schedule WHERE id= ? UNION SELECT * FROM schedule AS scheduless WHERE id=1",
-        ctx.params["id"]
-      ),
+      schedules: await ctx
+        .knex("schedule")
+        .where("id", "=", ctx.params["id"])
+        .union(function() {
+          this.from("schedule").where("id", "=", 1)
+        }),
       urls: scheduleListUrls
     })
   })
 
   router.get("schedule-list-select", "/schedule/:id/select", async ctx => {
-    //Belum ditest//
     await ctx.render("schedule/list", {
       schedules: await ctx.knex("schedule").where("id", "=", ctx.params["id"]),
       urls: scheduleListUrls
@@ -136,11 +136,11 @@ export function apply(router: KoaRouter) {
     "schedule-list-projection",
     "/schedule/:id/projection",
     async ctx => {
-      //Belum ditest//
+      //Belum UInya//
       await ctx.render("schedule/list", {
         schedules: await ctx
           .knex("schedule")
-          .column("name", "manufacturedAt", "endedAt")
+          .column("source", "departedAt", "arrivedAt")
           .where("id", "=", ctx.params["id"]),
         urls: scheduleListUrls
       })
@@ -151,12 +151,13 @@ export function apply(router: KoaRouter) {
     "schedule-list-different",
     "/schedule/:id/different",
     async ctx => {
-      //Belum ditest//
       await ctx.render("schedule/list", {
-        schedules: await ctx.knex.raw(
-          "SELECT * FROM schedule WHERE id= ? EXCEPT SELECT * FROM schedule WHERE id=1",
-          ctx.params["id"]
-        ),
+        schedules: await ctx
+          .knex("schedule")
+          .whereRaw(
+            "id= ? except select * from schedule WHERE id=1",
+            ctx.params["id"]
+          ),
         urls: scheduleListUrls
       })
     }
@@ -166,6 +167,7 @@ export function apply(router: KoaRouter) {
     "schedule-list-train-join",
     "/schedule/:id/train/join",
     async ctx => {
+      //Belum ada UInya//
       await ctx.render("schedule/list", {
         schedules: await ctx
           .knex("schedule")

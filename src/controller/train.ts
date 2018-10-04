@@ -43,6 +43,10 @@ export function apply(router: KoaRouter) {
         .first(),
       urls: {
         join: router.url("train-list-schedule-join", id),
+        union: router.url("train-list-union", id),
+        select: router.url("train-list-select", id),
+        projection: router.url("train-list-projection", id),
+        different: router.url("train-list-different", id),
         before: router.url("train-list-before", id),
         after: router.url("train-list-after", id),
         meets: router.url("train-list-meets", id),
@@ -74,6 +78,20 @@ export function apply(router: KoaRouter) {
     // TODO
   })
 
+  router.get("train-form-delete", "/train/:id/delete", async ctx => {
+    //belum di test//
+    await ctx.render("train/form", {
+      train: await ctx
+        .knex("train")
+        .where("id", "=", ctx.params["id"])
+        .first()
+    })
+  })
+
+  router.post("train-delete", "/train/:id/delete", async ctx => {
+    // TODO
+  })
+
   router.get(
     "train-list-schedule-join",
     "/train/:id/schedule/join",
@@ -86,6 +104,47 @@ export function apply(router: KoaRouter) {
       })
     }
   )
+
+  router.get("train-list-union", "/train/:id/union", async ctx => {
+    //Belum ditest//
+    await ctx.render("train/list", {
+      schedules: await ctx.knex.raw(
+        "SELECT * FROM train WHERE id= ? UNION SELECT * FROM train AS trainss WHERE id=1",
+        ctx.params["id"]
+      ),
+      urls: trainListUrls
+    })
+  })
+
+  router.get("train-list-select", "/train/:id/select", async ctx => {
+    //Belum ditest//
+    await ctx.render("train/list", {
+      schedules: await ctx.knex("train").where("id", "=", ctx.params["id"]),
+      urls: trainListUrls
+    })
+  })
+
+  router.get("train-list-projection", "/train/:id/projection", async ctx => {
+    //Belum ditest//
+    await ctx.render("train/list", {
+      schedules: await ctx
+        .knex("train")
+        .column("name", "manufacturedAt", "endedAt")
+        .where("id", "=", ctx.params["id"]),
+      urls: trainListUrls
+    })
+  })
+
+  router.get("train-list-different", "/train/:id/different", async ctx => {
+    //Belum ditest//
+    await ctx.render("train/list", {
+      schedules: await ctx.knex.raw(
+        "SELECT * FROM train WHERE id= ? EXCEPT SELECT * FROM train WHERE id=1",
+        ctx.params["id"]
+      ),
+      urls: trainListUrls
+    })
+  })
 
   router.get("train-list-before", "/train/:id/before", async ctx => {
     await ctx.render("train/list", {

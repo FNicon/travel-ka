@@ -14,7 +14,7 @@ export async function build() {
   const environType = process.env.NODE_ENV || "development"
 
   const app = new Koa()
-  
+
   // Static Folder
   const publicFiles = "./public"
 
@@ -32,14 +32,10 @@ export async function build() {
       extension: "pug"
     })
   )
-  
-  app.use(
-	  KoaMount('/static', KoaStatic(publicFiles))
-  )
 
-  app.use(
-    KoaBody()
-  )
+  app.use(KoaMount("/static", KoaStatic(publicFiles)))
+
+  app.use(KoaBody())
 
   // Controllers
   const router = await buildRouter()

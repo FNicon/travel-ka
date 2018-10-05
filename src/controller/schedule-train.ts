@@ -17,9 +17,10 @@ export function apply(router: KoaRouter) {
 
   router.get("schedule-list-by-train", "/schedule-train/:id", async ctx => {
     await ctx.render("schedule/list", {
-      schedules: await ctx.knex("schedule").where("trainId","=",ctx.params["id"]),
+      schedules: await ctx
+        .knex("schedule")
+        .where("trainId", "=", ctx.params["id"]),
       urls: scheduleTrainListUrls
     })
   })
-
 }

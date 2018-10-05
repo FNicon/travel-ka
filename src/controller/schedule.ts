@@ -186,10 +186,20 @@ export function apply(router: KoaRouter) {
     "/schedule/:id/train/join",
     async ctx => {
       //Belum ada UInya//
-      await ctx.render("schedule/list", {
+      await ctx.render("train-schedule/list", {
         schedules: await ctx
           .knex("schedule")
-          .join("train", "schedule.trainId", "=", "train.id"),
+          .select(
+            "schedule.id",
+            "schedule.trainId",
+            "train.name",
+            "schedule.source",
+            "schedule.destination",
+            "schedule.departedAt",
+            "schedule.arrivedAt"
+          )
+          .join("train", "schedule.trainId", "=", "train.id")
+          .where("schedule.id", "=", ctx.params["id"]),
         urls: scheduleListUrls
       })
     }

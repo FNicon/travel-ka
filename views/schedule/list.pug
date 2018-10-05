@@ -17,12 +17,15 @@ html(lang="en")
               .block-header
                 | Nomor Perjalanan
               .block-content
-                a(href=urls.scheduleDetail(schedule.id)) #{"#"+schedule.id}
+                if(schedule && schedule.id)
+                  a(href=urls.scheduleDetail(schedule.id))
+                    |#{"#"+ schedule.id}
           .train-id.data-block.bold
             .block-header
               | ID Kereta
             .block-content
-              a(href=urls.trainDetail(schedule.trainId)) #{"#"+schedule.trainId}
+              if(schedule && schedule.trainId)
+                a(href=urls.trainDetail(schedule.trainId)) #{"#"+schedule.trainId}
           .location.data-block.row-pad
             - var start = new Date(schedule.departedAt)
             - var end = new Date(schedule.arrivedAt)

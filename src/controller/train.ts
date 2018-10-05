@@ -38,7 +38,7 @@ export function apply(router: KoaRouter) {
       }
     ])
 
-    ctx.redirect("train-form-new")
+    ctx.redirect(router.url("train-form-new", {}))
   })
 
   router.get("train-list", "/trains", async ctx => {

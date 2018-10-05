@@ -42,7 +42,7 @@ export function apply(router: KoaRouter) {
         arrivedAt: body.arrivedAt
       }
     ])
-    ctx.redirect("train-form-new")
+    ctx.redirect(router.url("schedule-form-new", {}))
   })
 
   router.get("schedule-list", "/schedules", async ctx => {
@@ -158,7 +158,7 @@ export function apply(router: KoaRouter) {
       await ctx.render("schedule/list", {
         schedules: await ctx
           .knex("schedule")
-          .column("source", "departedAt", "arrivedAt")
+          .column("source", "destination", "departedAt", "arrivedAt")
           .where("id", "=", ctx.params["id"]),
         urls: scheduleListUrls
       })

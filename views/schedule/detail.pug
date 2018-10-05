@@ -30,13 +30,13 @@ html(lang="en")
               | Berangkat
             .block-content
               | #{schedule.source}<br>
-              | #{day[start.getDay()] + ", " + start.getDate()+" "+month[start.getMonth()]+" "+(1900+start.getYear())}
+              | #{day[start.getDay()] + ", " + start.getDate()+" "+month[start.getMonth()]+" "+(1900+start.getYear())+" "+start.getHours()+":"+start.getMinutes()}
           .destination.pad-big
             .block-header
               | Tujuan
             .block-content
               | #{schedule.destination}<br>
-              | #{day[end.getDay()] + ", " + end.getDate()+" "+month[end.getMonth()]+" "+(1900+end.getYear())}
+              | #{day[end.getDay()] + ", " + end.getDate()+" "+month[end.getMonth()]+" "+(1900+end.getYear())+" "+end.getHours()+":"+end.getMinutes()}
       .button-gallery
         button(onclick="document.location='"+urls.before+"'") Before
         button(onclick="document.location='"+urls.after+"'") After

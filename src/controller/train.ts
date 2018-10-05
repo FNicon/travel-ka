@@ -64,7 +64,8 @@ export function apply(router: KoaRouter) {
         .first(),
       urls: {
         schedules: router.url("train-schedules", id),
-        trainDetail: trainListUrls.trainDetail
+        trainDetail: trainListUrls.trainDetail,
+        trainEdit: router.url("train-edit", ctx.params["id"])
       }
     })
   })

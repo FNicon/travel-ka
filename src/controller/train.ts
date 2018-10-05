@@ -11,12 +11,11 @@ export function buildTrainListUrls(router: KoaRouter) {
 }
 
 export function apply(router: KoaRouter) {
-  
-  interface TrainData{
-    id : string;
-    name : string;
-    manufacturedAt : string;
-    endedAt : string
+  interface TrainData {
+    id: string
+    name: string
+    manufacturedAt: string
+    endedAt: string
   }
 
   const trainListUrls = buildTrainListUrls(router)
@@ -64,20 +63,22 @@ export function apply(router: KoaRouter) {
         finishedBy: router.url("train-list-finished-by", id),
         equals: router.url("train-list-equals", id),
         trainDetail: trainListUrls.trainDetail,
-        schedules : router.url("schedule-list-by-train", id),
+        schedules: router.url("schedule-list-by-train", id),
         trainEdit: router.url("train-form-edit", id)
       }
     })
   })
 
   router.post("train-add", "/train/new", async ctx => {
-    let body = <TrainData> ctx.request.body
+    let body = <TrainData>ctx.request.body
     await ctx.knex("train").insert([
-      { id: body["id"],
+      {
+        id: body["id"],
         name: body["name"],
         manufacturedAt: body["manufacturedAt"],
-        endedAt: body["endedAt"] 
-      }])
+        endedAt: body["endedAt"]
+      }
+    ])
     ctx.redirect("train-form-new")
   })
 
@@ -87,33 +88,33 @@ export function apply(router: KoaRouter) {
         .knex("train")
         .where("id", "=", ctx.params["id"])
         .first(),
-      urls : {
-        delete : router.url("train-delete", ctx.params["id"]),
-        edit : router.url("train-edit", ctx.params["id"])
+      urls: {
+        delete: router.url("train-delete", ctx.params["id"]),
+        edit: router.url("train-edit", ctx.params["id"])
       }
     })
   })
 
   router.post("train-edit", "/train/edit", async ctx => {
-    let body = <TrainData> ctx.request.body
+    let body = <TrainData>ctx.request.body
     await ctx
       .knex("train")
       .where("id", "=", body["id"])
       .update({
         name: body["name"],
         manufacturedAt: body["manufacturedAt"],
-        endedAt: body["endedAt"] 
+        endedAt: body["endedAt"]
       })
-      ctx.redirect(router.url("train-detail", body["id"]))
+    ctx.redirect(router.url("train-detail", body["id"]))
   })
 
   router.post("train-delete", "/train/delete", async ctx => {
-    let body = <TrainData> ctx.request.body
+    let body = <TrainData>ctx.request.body
     await ctx
-        .knex("train")
-        .where("id", "=", body["id"])
-        .del()
-    ctx.redirect(router.url('train-list',{}))
+      .knex("train")
+      .where("id", "=", body["id"])
+      .del()
+    ctx.redirect(router.url("train-list", {}))
   })
 
   router.get(
@@ -302,11 +303,11 @@ export function apply(router: KoaRouter) {
               .first()
           )
           .andWhere(
-            "endedAt",
+            "manufacturedAt",
             "<",
             ctx
               .knex("train")
-              .select("manufacturedAt")
+              .select("endedAt")
               .where("id", "=", ctx.params["id"])
               .first()
           ),

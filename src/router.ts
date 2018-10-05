@@ -11,6 +11,7 @@ export async function build() {
   applyHello(router)
   applySchedule(router)
   applyTrain(router)
+  applyScheduleTrain(router)
 
   return router
 }

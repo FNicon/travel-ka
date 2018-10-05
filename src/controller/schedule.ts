@@ -325,11 +325,11 @@ export function apply(router: KoaRouter) {
               .first()
           )
           .andWhere(
-            "arrivedAt",
+            "departedAt",
             "<",
             ctx
               .knex("schedule")
-              .select("departedAt")
+              .select("arrivedAt")
               .where("id", "=", ctx.params["id"])
               .first()
           ),
